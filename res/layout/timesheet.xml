@@ -12,12 +12,12 @@
 	android:orientation="vertical">
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
+		<!-- FIXME: Stick an icon on this button. -->
+		<Button android:layout_width="@dimen/schedule_label_header_width"
+			android:layout_height="wrap_content" android:id="@+id/selectWeekButton" />
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/weekTextView"
-			android:layout_weight="1" />
-		<Button android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/selectWeekButton"
-			android:text="@string/timesheet_select_week_label" />
+			android:layout_weight="1" android:gravity="center" android:textStyle="bold" />
 	</LinearLayout>
 	<FrameLayout android:id="@android:id/progress"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"

@@ -3,14 +3,19 @@
  */
 package net.galluzzo.timebuddy.android;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.galluzzo.android.widget.BlockView;
+import net.galluzzo.android.widget.BlocksLayout;
 import net.galluzzo.timebuddy.model.TimeEntry;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -24,6 +29,16 @@ public class TimesheetActivity extends BaseActivity
 {
 	private static final String TAG = TimesheetActivity.class.getSimpleName();
 	
+	private static final DateFormat START_OF_WEEK_DATE_FORMAT =
+		DateFormat.getDateInstance( DateFormat.LONG );
+
+	private Date startOfTimesheetView;
+	private ScrollView scrollView;
+	private BlocksLayout blocksLayout;
+	private TextView weekTextView;
+	private TextView emptyTextView;
+	private View progressBarView;
+
 	private class LoadTimeEntriesTask extends
 		AsyncTask<Date, Void, List<TimeEntry>>
 	{
@@ -70,14 +85,10 @@ public class TimesheetActivity extends BaseActivity
 				scrollView.setVisibility( View.VISIBLE );
 				progressBarView.setVisibility( View.GONE );
 				emptyTextView.setVisibility( View.GONE );
-				// FIXME: Add the BlockViews accordingly.
+				createBlockViews( result );
 			}
 		}
 	}
-
-	private ScrollView scrollView;
-	private TextView emptyTextView;
-	private View progressBarView;
 
 	@Override
 	protected void onCreate( Bundle inSavedInstanceState )
@@ -86,6 +97,8 @@ public class TimesheetActivity extends BaseActivity
 		setContentView( R.layout.timesheet );
 
 		scrollView = (ScrollView) findViewById( R.id.blocks_scroll );
+		blocksLayout = (BlocksLayout) findViewById( R.id.blocks );
+		weekTextView = (TextView) findViewById( R.id.weekTextView );
 		emptyTextView = (TextView) findViewById( android.R.id.empty );
 		progressBarView = findViewById( android.R.id.progress );
 
@@ -95,6 +108,26 @@ public class TimesheetActivity extends BaseActivity
 
 		Calendar cal = Calendar.getInstance();
 		cal.set( 2011, Calendar.JANUARY, 1, 0, 0, 0 );
-		new LoadTimeEntriesTask().execute( cal.getTime() );
+		startOfTimesheetView = cal.getTime();
+		weekTextView.setText( START_OF_WEEK_DATE_FORMAT.format( startOfTimesheetView ) );
+		new LoadTimeEntriesTask().execute( startOfTimesheetView );
+	}
+
+	public void createBlockViews( List<TimeEntry> timeEntries )
+	{
+		blocksLayout.removeAllBlocks();
+		for ( TimeEntry timeEntry : timeEntries )
+		{
+			long timeInMillis = timeEntry.getTimestamp()
+				.getTime();
+			int day = (int) ( ( timeInMillis - startOfTimesheetView.getTime() ) / ( 24L * 60L * 60L * 1000L ) );
+			BlockView blockView = new BlockView( this, "",
+				timeEntry.getMessage() + " "
+					+ timeEntry.getCommaSeparatedTagLabels(), timeInMillis,
+				timeInMillis + 3600000L, false, day, timeEntry.getColor() );
+			blockView.setTextSize( TypedValue.COMPLEX_UNIT_DIP, 8 );
+			blockView.setPadding( 5, 5, 5, 5 );
+			blocksLayout.addBlock( blockView );
+		}
 	}
 }

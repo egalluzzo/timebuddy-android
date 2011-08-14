@@ -16,7 +16,7 @@ import java.util.List;
 public class TimeEntry
 {
 	private String message;
-	private List<Tag> tags = new ArrayList<Tag>();
+	private List<Tag> tags = new ArrayList<Tag>( 2 );
 	private Date timestamp;
 
 	public String getMessage()
@@ -89,5 +89,23 @@ public class TimeEntry
 	public void setTimestamp( Date inTimestamp )
 	{
 		timestamp = inTimestamp;
+	}
+
+	/**
+	 * Returns the color of the first task assigned to this time entry, if any,
+	 * or gray if there is none.
+	 * 
+	 * @return  The color that this time entry should be rendered
+	 */
+	public int getColor()
+	{
+		for ( Tag tag : tags )
+		{
+			if ( tag.isTask() )
+			{
+				return tag.getColor();
+			}
+		}
+		return 0xFF808080;
 	}
 }
