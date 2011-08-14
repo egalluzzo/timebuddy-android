@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="fill_parent" android:text="@string/app_name"
+		android:layout_height="wrap_content" android:gravity="center"></TextView>
+	<net.galluzzo.android.widget.DashboardLayout
+		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		<Button android:id="@+id/newTimeEntryButton" style="@style/DashboardButton"
+			android:text="@string/home_new_time_entry_label" android:drawableTop="@drawable/add" />
+		<Button android:id="@+id/viewTimesheetButton" style="@style/DashboardButton"
+			android:text="@string/home_view_timesheet_label" android:drawableTop="@drawable/calendar" />
+		<Button android:id="@+id/reportButton" style="@style/DashboardButton"
+			android:text="@string/home_report_label" android:drawableTop="@drawable/report" />
+		<Button android:id="@+id/tagsButton" style="@style/DashboardButton"
+			android:text="@string/home_tags_label" android:drawableTop="@drawable/tags" />
+		<Button android:id="@+id/settingsButton" style="@style/DashboardButton"
+			android:text="@string/home_settings_label" android:drawableTop="@drawable/settings" />
+		<!-- This last invisible button is here to make DashboardLayout happy. 
+			If we omit it, then in landscape mode, it stacks all the buttons in a vertical 
+			line, clipping the bottom of each one. -->
+		<Button style="@style/DashboardButton" android:visibility="invisible" />
+	</net.galluzzo.android.widget.DashboardLayout>
+</LinearLayout>

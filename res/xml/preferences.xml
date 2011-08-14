@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/preferences_time_buddy_server_label">
+		<EditTextPreference android:key="timeBuddyEmail"
+			android:title="@string/preferences_time_buddy_email_label"
+			android:summary="@string/preferences_time_buddy_email_summary" />
+		<EditTextPreference android:key="apiKey"
+			android:title="@string/preferences_api_key_label" android:summary="@string/preferences_api_key_summary" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/preferences_polling_schedule_label">
+		<CheckBoxPreference android:key="poll"
+			android:title="@string/preferences_poll_label" android:summary="@string/preferences_poll_summary"
+			android:defaultValue="true" />
+		<net.galluzzo.android.preference.TimePreference
+			android:key="workdayStart" android:title="@string/preferences_start_of_workday_label"
+			android:summary="@string/preferences_start_of_workday_summary"
+			android:defaultValue="8:00" android:dependency="poll" />
+		<net.galluzzo.android.preference.TimePreference
+			android:key="workdayEnd" android:title="@string/preferences_end_of_workday_label"
+			android:summary="@string/preferences_end_of_workday_summary"
+			android:defaultValue="17:00" android:dependency="poll" />
+		<ListPreference android:key="workWeekStart"
+			android:title="@string/preferences_start_of_work_week_label"
+			android:summary="@string/preferences_start_of_work_week_summary"
+			android:defaultValue="1" android:entries="@array/days_of_the_week"
+			android:entryValues="@array/day_of_the_week_values"
+			android:dependency="poll" />
+		<ListPreference android:key="workWeekEnd"
+			android:title="@string/preferences_end_of_work_week_label"
+			android:summary="@string/preferences_end_of_work_week_summary"
+			android:defaultValue="5" android:entries="@array/days_of_the_week"
+			android:entryValues="@array/day_of_the_week_values"
+			android:dependency="poll" />
+		<EditTextPreference android:key="pollingInterval"
+			android:title="@string/preferences_polling_interval_label"
+			android:summary="@string/preferences_polling_interval_summary"
+			android:defaultValue="60" android:numeric="integer"
+			android:maxLength="3" android:dependency="poll" />
+	</PreferenceCategory>
+</PreferenceScreen>

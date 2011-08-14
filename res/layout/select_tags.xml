@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<ListView android:id="@android:id/list" android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_weight="1" android:choiceMode="multipleChoice">
+	    <!-- Preview: listitem=@android:layout/simple_list_item_checked -->
+	</ListView>
+	<TextView android:id="@android:id/empty" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1"
+		android:textAppearance="@android:style/TextAppearance.Large"
+		android:gravity="center" android:text="@string/tag_list_no_tags_label" />
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<Button android:id="@+id/selectTagsButton"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_weight="1" android:text="@string/tag_list_select_tags_label"></Button>
+		<Button android:id="@+id/cancelButton" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:text="@string/cancel_label"></Button>
+	</LinearLayout>
+</LinearLayout>

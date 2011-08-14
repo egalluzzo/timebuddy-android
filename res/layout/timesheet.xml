@@ -1,0 +1,54 @@
+<!-- Portions (c) Google, Inc.: Copyright 2011 Google Inc. Licensed under 
+	the Apache License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:timebuddy="http://schemas.android.com/apk/res/net.galluzzo.timebuddy.android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/weekTextView"
+			android:layout_weight="1" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/selectWeekButton"
+			android:text="@string/timesheet_select_week_label" />
+	</LinearLayout>
+	<FrameLayout android:id="@android:id/progress"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_weight="1" android:layout_gravity="center">
+		<ProgressBar android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_gravity="center"
+			style="?android:attr/progressBarStyleLarge">
+		</ProgressBar>
+	</FrameLayout>
+	<TextView android:id="@android:id/empty" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1"
+		android:textAppearance="@android:style/TextAppearance.Large"
+		android:gravity="center" android:text="@string/timesheet_no_time_entries"
+		android:visibility="gone" />
+	<net.galluzzo.android.widget.ObservableScrollView
+		android:id="@+id/blocks_scroll" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1"
+		android:fadingEdge="vertical" android:visibility="gone">
+		<net.galluzzo.android.widget.BlocksLayout
+			android:id="@+id/blocks" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" timebuddy:columns="7">
+			<net.galluzzo.android.widget.TimeRulerView
+				android:id="@id/blocks_ruler" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" timebuddy:headerWidth="@dimen/schedule_label_header_width"
+				timebuddy:hourHeight="@dimen/schedule_hour_height"
+				timebuddy:horizontalDivider="true" timebuddy:labelTextSize="@dimen/schedule_text_size"
+				timebuddy:labelPaddingLeft="@dimen/schedule_label_padding"
+				timebuddy:labelColor="#000000" timebuddy:dividerColor="#22000000"
+				timebuddy:startHour="0" timebuddy:endHour="24" />
+			<View android:id="@id/blocks_now" android:background="@drawable/now_bar"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</net.galluzzo.android.widget.BlocksLayout>
+	</net.galluzzo.android.widget.ObservableScrollView>
+</LinearLayout>

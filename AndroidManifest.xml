@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="net.galluzzo.timebuddy.android"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <uses-sdk android:minSdkVersion="7" />
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:name=".TimeBuddyMainActivity"
+                  android:theme="@android:style/Theme.Light.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".NewTimeEntryActivity"
+                  android:label="@string/time_entry_activity_label">
+        </activity>
+        
+        <activity android:name=".TimesheetActivity"
+                  android:label="@string/timesheet_activity_label"
+                  android:theme="@android:style/Theme.Light">
+        </activity>
+        
+        <activity android:name=".EditTagsActivity"
+                  android:label="@string/edit_tags_activity_label">
+        </activity>
+        
+        <activity android:name=".EditTagActivity"
+                  android:label="@string/edit_tag_activity_label">
+        </activity>
+        
+        <activity android:name=".SelectTagsActivity"
+                  android:label="@string/tag_list_activity_label">
+        </activity>
+        
+        <activity android:name=".EditSettingsActivity"
+                  android:label="@string/preferences_activity_label">
+        </activity>
+    </application>
+</manifest>

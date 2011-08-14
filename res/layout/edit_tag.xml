@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<EditText android:id="@+id/editTagLabelText"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_weight="1" android:hint="@string/edit_tag_label_hint"
+		android:layout_alignParentTop="true">
+		<requestFocus></requestFocus>
+	</EditText>
+	<LinearLayout android:id="@+id/task_layout"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_below="@+id/editTagLabelText">
+		<CheckBox android:id="@+id/editTagTaskCheckBox"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_weight="1" android:text="@string/edit_tag_task_label" />
+		<Button android:id="@+id/editTagColorButton"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_gravity="center" android:text="@string/edit_tag_color_label"
+			android:enabled="false"></Button>
+	</LinearLayout>
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_alignParentBottom="true">
+		<Button android:id="@+id/saveTagButton" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:text="@string/save_label" />
+		<Button android:id="@+id/cancelButton" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:text="@string/cancel_label" />
+	</LinearLayout>
+</RelativeLayout>

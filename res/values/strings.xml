@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Time Buddy</string>
+	
+	<string name="save_label">Save</string>
+	<string name="cancel_label">Cancel</string>
+	
+	<string name="home_new_time_entry_label">New Entry</string>
+	<string name="home_view_timesheet_label">Timesheet</string>
+	<string name="home_report_label">Report</string>
+	<string name="home_tags_label">Tags</string>
+	<string name="home_settings_label">Settings</string>
+
+	<string name="timesheet_activity_label">Timesheet</string>
+	<string name="timesheet_select_week_label">Select week...</string>
+	<string name="timesheet_no_time_entries">No time entries</string>
+
+	<string name="time_entry_activity_label">New Time Entry</string>
+	<string name="time_entry_description_hint">Description</string>
+	<string name="time_entry_tags_label">Tags...</string>
+	<string name="time_entry_submit_label">Submit</string>
+	<string name="time_entry_submitted">Time entry submitted</string>
+
+	<string name="tag_list_activity_label">Select Tag</string>
+	<string name="tag_list_select_tags_label">Select</string>
+	<string name="tag_list_new_tag_label">New tag...</string>
+	<string name="tag_list_no_tags_label">No tags available</string>
+	
+	<string name="edit_tag_activity_label">Edit Tag</string>
+	<string name="edit_tag_label_hint">Label</string>
+	<string name="edit_tag_task_label">Task (one per time entry)</string>
+	<string name="edit_tag_color_label">Color</string>
+
+	<string name="edit_tags_activity_label">Edit Tags</string>
+	<string name="edit_tags_new_tag_label">New...</string>
+	<string name="edit_tags_edit_tag_label">Edit...</string>
+	<string name="edit_tags_remove_tag_label">Remove</string>
+	
+	<string name="preferences_activity_label">Edit Settings</string>
+	<string name="preferences_time_buddy_server_label">Time Buddy Server</string>
+	<string name="preferences_time_buddy_email_label">Time Buddy account</string>
+	<string name="preferences_time_buddy_email_summary">Google email address you use to sign into
+		http://time-buddy.appspot.com
+	</string>
+	<string name="preferences_api_key_label">Token</string>
+	<string name="preferences_api_key_summary">Time Buddy generated token from
+		http://time-buddy.appspot.com
+	</string>
+	<string name="preferences_polling_schedule_label">Polling Schedule</string>
+	<string name="preferences_poll_label">Prompt for new entries</string>
+	<string name="preferences_poll_summary">If checked, Time Buddy will ask you for new time
+		entries periodically</string>
+	<string name="preferences_start_of_work_week_label">First day of work week</string>
+	<string name="preferences_start_of_work_week_summary">The first day of the week that Time Buddy will
+		prompt you
+	</string>
+	<string name="preferences_end_of_work_week_label">Last day of work week</string>
+	<string name="preferences_end_of_work_week_summary">The last day of the week that Time Buddy will
+		prompt you
+	</string>
+	<string name="preferences_start_of_workday_label">Start of workday</string>
+	<string name="preferences_start_of_workday_summary">The time of day when Time Buddy will start
+		reminding you to enter your time
+	</string>
+	<string name="preferences_end_of_workday_label">End of workday</string>
+	<string name="preferences_end_of_workday_summary">The time of day when Time Buddy will stop reminding
+		you to enter your time
+	</string>
+	<string name="preferences_polling_interval_label">Polling interval</string>
+	<string name="preferences_polling_interval_summary">The number of minutes that Time Buddy will wait
+		between prompts
+	</string>
+</resources>
