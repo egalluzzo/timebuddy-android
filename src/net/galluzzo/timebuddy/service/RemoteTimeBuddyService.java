@@ -93,10 +93,7 @@ public class RemoteTimeBuddyService implements TimeBuddyService
 	@Override
 	public Tag createNewTag( Tag inTagData )
 	{
-		if ( tags == null )
-		{
-			tags = readTags();
-		}
+		readTagsIfNecessary();
 
 		Tag tag = Tag.getTag( createTagId() );
 		tag.copyFrom( inTagData );
@@ -114,12 +111,29 @@ public class RemoteTimeBuddyService implements TimeBuddyService
 
 	public void saveTag( Tag inTagData )
 	{
+		readTagsIfNecessary();
+		writeTags();
+	}
+
+	/**
+	 * If the tags have not been read, read them.
+	 */
+	private void readTagsIfNecessary()
+	{
 		if ( tags == null )
 		{
-			tags = readTags();
+			try
+			{
+				tags = readTags();
+			}
+			finally
+			{
+				if ( tags == null )
+				{
+					tags = new ArrayList<Tag>();
+				}
+			}
 		}
-
-		writeTags();
 	}
 
 	/* (non-Javadoc)
@@ -128,10 +142,7 @@ public class RemoteTimeBuddyService implements TimeBuddyService
 	@Override
 	public List<Tag> findAllTags()
 	{
-		if ( tags == null )
-		{
-			tags = readTags();
-		}
+		readTagsIfNecessary();
 		return tags;
 	}
 
@@ -171,9 +182,9 @@ public class RemoteTimeBuddyService implements TimeBuddyService
 		try
 		{
 			OutputStream stream = fileProvider.writeLocalFile( "tags.xml" );
+			OutputStreamWriter writer = new OutputStreamWriter( stream, "UTF-8" );
 			try
 			{
-				OutputStreamWriter writer = new OutputStreamWriter( stream, "UTF-8" );
 				writer.write( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" );
 				writer.write( "<tags>\n" );
 				for ( Tag tag : tags )
@@ -204,7 +215,7 @@ public class RemoteTimeBuddyService implements TimeBuddyService
 			}
 			finally
 			{
-				stream.close();
+				writer.close();
 			}
 		}
 		catch ( IOException ioe )

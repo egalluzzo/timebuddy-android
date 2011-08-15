@@ -5,6 +5,7 @@ package net.galluzzo.timebuddy.android;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,12 +13,14 @@ import java.util.Set;
 import net.galluzzo.timebuddy.model.Tag;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * An activity that allows the user to select from a list of available tags.
@@ -28,6 +31,8 @@ public class SelectTagsActivity extends BaseListActivity
 {
 	public static final String EXTRA_TAG_IDS = SelectTagsActivity.class.getName()
 		+ ".tagIds";
+	
+	private static final String TAG = SelectTagsActivity.class.getSimpleName();
 
 	protected TagAdapter tagAdapter;
 
@@ -89,9 +94,19 @@ public class SelectTagsActivity extends BaseListActivity
 			}
 		} );
 
-		// TODO: Do this asynchronously, with a little ProgressBar somewhere.
-		List<Tag> tags = getTimeBuddyService().findAllTags();
-		//setListAdapter( new TagAdapter( this, tags ) );
+		// TODO: Do this asynchronously, with a ProgressBar somewhere.
+		List<Tag> tags;
+		try
+		{
+			tags = getTimeBuddyService().findAllTags();
+		}
+		catch ( Exception ex )
+		{
+			Log.e( TAG, "Could not read tags", ex );
+			// FIXME: Use a resource ID
+			( (TextView) findViewById( android.R.id.empty ) ).setText( "Could not read tags" );
+			tags = Collections.emptyList();
+		}
 		tagAdapter = new TagAdapter( this, R.layout.list_item_tag_checked, tags );
 		setListAdapter( tagAdapter );
 	}

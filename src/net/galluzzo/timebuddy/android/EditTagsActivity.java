@@ -3,16 +3,19 @@
  */
 package net.galluzzo.timebuddy.android;
 
+import java.util.Collections;
 import java.util.List;
 
 import net.galluzzo.timebuddy.model.Tag;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * An activity that allows the user to select from a list of available tags.
@@ -21,6 +24,8 @@ import android.widget.Button;
  */
 public class EditTagsActivity extends BaseListActivity
 {
+	private static final String TAG = EditTagsActivity.class.getSimpleName();
+	
 	protected static final int NEW_TAG_REQUEST_CODE = 1;
 	protected static final int EDIT_TAG_REQUEST_CODE = 2;
 
@@ -59,7 +64,18 @@ public class EditTagsActivity extends BaseListActivity
 		} );
 
 		// TODO: Do this asynchronously, with a ProgressBar somewhere.
-		List<Tag> tags = getTimeBuddyService().findAllTags();
+		List<Tag> tags;
+		try
+		{
+			tags = getTimeBuddyService().findAllTags();
+		}
+		catch ( Exception ex )
+		{
+			Log.e( TAG, "Could not read tags", ex );
+			// FIXME: Use a resource ID
+			( (TextView) findViewById( android.R.id.empty ) ).setText( "Could not read tags" );
+			tags = Collections.emptyList();
+		}
 		tagAdapter = new TagAdapter( this, R.layout.list_item_tag, tags );
 		setListAdapter( tagAdapter );
 //		listAdapter = new ArrayAdapter<Tag>( this,

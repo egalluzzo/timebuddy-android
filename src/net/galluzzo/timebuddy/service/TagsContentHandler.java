@@ -85,20 +85,21 @@ public class TagsContentHandler extends DefaultHandler
 		}
 		else if ( ID_ELEM.equals( inLocalName ) )
 		{
-			id = stringBuilder.toString();
+			id = stringBuilder.toString().trim();
 		}
 		else if ( LABEL_ELEM.equals( inLocalName ) )
 		{
-			tag.setLabel( stringBuilder.toString() );
+			tag.setLabel( stringBuilder.toString().trim() );
 		}
 		else if ( TASK_ELEM.equals( inLocalName ) )
 		{
-			tag.setTask( Boolean.parseBoolean( stringBuilder.toString() ) );
+			tag.setTask( Boolean.parseBoolean( stringBuilder.toString().trim() ) );
 		}
 		else if ( COLOR_ELEM.equals( inLocalName ) )
 		{
 			// TODO: This is currently Android-dependent.
-			tag.setColor( Color.parseColor( stringBuilder.toString() ) );
+			Log.d( TAG, "Parsing color: " + stringBuilder.toString().trim() );
+			tag.setColor( Color.parseColor( stringBuilder.toString().trim() ) );
 		}
 		stringBuilder.setLength( 0 );
 	}

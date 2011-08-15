@@ -14,6 +14,7 @@
 	<string name="timesheet_activity_label">Timesheet</string>
 	<string name="timesheet_select_week_label">Select week...</string>
 	<string name="timesheet_no_time_entries">No time entries</string>
+	<string name="timesheet_select_start_of_week_label">Start of Week</string>
 
 	<string name="time_entry_activity_label">New Time Entry</string>
 	<string name="time_entry_description_hint">Description</string>

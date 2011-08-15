@@ -67,20 +67,20 @@ public class EntriesContentHandler extends DefaultHandler
 		{
 			try
 			{
-				timeEntry.setTimestamp( DATE_FORMAT.parse( stringBuilder.toString() ) );
+				timeEntry.setTimestamp( DATE_FORMAT.parse( stringBuilder.toString().trim() ) );
 			}
 			catch ( ParseException e )
 			{
-				Log.w( TAG, "Could not parse date: " + stringBuilder.toString() );
+				Log.w( TAG, "Could not parse date: " + stringBuilder.toString().trim() );
 			}
 		}
 		else if ( DESCRIPTION_ELEM.equals( inLocalName ) )
 		{
-			timeEntry.setMessage( stringBuilder.toString() );
+			timeEntry.setMessage( stringBuilder.toString().trim() );
 		}
 		else if ( TAGS_ELEM.equals( inLocalName ) )
 		{
-			addTags( stringBuilder.toString() );
+			addTags( stringBuilder.toString().trim() );
 		}
 		stringBuilder.setLength( 0 );
 	}
