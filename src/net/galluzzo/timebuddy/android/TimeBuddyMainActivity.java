@@ -58,5 +58,7 @@ public class TimeBuddyMainActivity extends BaseActivity
 				startActivity( intent );
 			}
 		} );
+		
+		NotificationBroadcastReceiver.startNotificationServiceIfNecessary( getApplicationContext() );
 	}
 }

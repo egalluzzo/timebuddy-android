@@ -4,6 +4,7 @@
 package net.galluzzo.timebuddy.android;
 
 import java.text.ParseException;
+import java.util.Calendar;
 
 import net.galluzzo.datetime.Time;
 import net.galluzzo.timebuddy.service.RemoteUrlProvider;
@@ -156,5 +157,48 @@ public class Settings implements RemoteUrlProvider
 	{
 		return Integer.parseInt( sharedPreferences.getString(
 			"pollingInterval", "60" ) );
+	}
+
+	/**
+	 * Finds the next time at which the user should be polled, assuming they
+	 * were just polled.
+	 * 
+	 * @return  The next time at which the user should be polled, as a number
+	 *          of milliseconds (c.f. System.currentTimeMillis()).
+	 */
+	public long findNextPollTime()
+	{
+		return System.currentTimeMillis()
+			+ ( ( (long) getPollingIntervalInMinutes() ) * 60L * 1000L );
+	}
+
+	/**
+	 * Determines whether polling is enabled, the current day is within the work
+	 * week, and the current time is within the workday.
+	 * 
+	 * @return  <code>true</code> if so, <code>false</code> if not
+	 */
+	public boolean shouldNotifyNow()
+	{
+		return isPolling() && isCurrentDayInWorkWeek() && isCurrentTimeInWorkDay();
+	}
+	
+	protected boolean isCurrentDayInWorkWeek()
+	{
+		Calendar cal = Calendar.getInstance();
+		int dayOfWeek = cal.get( Calendar.DAY_OF_WEEK ) - Calendar.SUNDAY;
+		if ( getWorkWeekStart() <= getWorkWeekEnd() )
+		{
+			return ( dayOfWeek >= getWorkWeekStart() ) && ( dayOfWeek <= getWorkWeekEnd() );
+		}
+		else
+		{
+			return ( dayOfWeek >= getWorkWeekStart() ) || ( dayOfWeek <= getWorkWeekEnd() );
+		}
+	}
+	
+	protected boolean isCurrentTimeInWorkDay()
+	{
+		return Time.now().isInRange( getWorkdayStart(), getWorkdayEnd() );
 	}
 }

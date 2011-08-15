@@ -40,5 +40,9 @@
         <activity android:name=".EditSettingsActivity"
                   android:label="@string/preferences_activity_label">
         </activity>
+        
+        <receiver android:name=".NotificationBroadcastReceiver"
+                  android:exported="false">
+        </receiver>
     </application>
 </manifest>

@@ -4,6 +4,7 @@
 package net.galluzzo.datetime;
 
 import java.text.ParseException;
+import java.util.Calendar;
 
 /**
  * A class that represents a certain time of day, such as 5:30.
@@ -121,6 +122,32 @@ public class Time implements Comparable<Time>
 		}
 		return comparison;
 	}
+	
+	/**
+	 * Determines whether this time is between <code>inStart</code> and
+	 * <code>inEnd</code>, inclusive.  If <code>inStart</code> is after
+	 * <code>inEnd</code>, the range is considered to overlap a date boundary,
+	 * so the time will be in range if it is after <code>inStart</code> or
+	 * before <code>inEnd</code>.
+	 * 
+	 * @param inStart  The start time
+	 * @param inEnd    The end time (which may be before the start time to
+	 *                 overlap a date boundary)
+	 * 
+	 * @return  <code>true</code> if the current time is in the given time
+	 *          range
+	 */
+	public boolean isInRange( Time inStart, Time inEnd )
+	{
+		if ( inStart.compareTo( inEnd ) <= 0 )
+		{
+			return compareTo( inStart ) >= 0 && compareTo( inEnd ) <= 0;
+		}
+		else
+		{
+			return compareTo( inStart ) >= 0 || compareTo( inEnd ) <= 0;
+		}
+	}
 
 	/**
 	 * Parses the given string as a {@link Time} of the form "hh:mm", where
@@ -158,5 +185,11 @@ public class Time implements Comparable<Time>
 		// Don't really know what the position of the failure is, so we'll
 		// use 0 for now.
 		throw new ParseException( "Invalid time string: " + inTime, 0 );
+	}
+	
+	public static Time now()
+	{
+		Calendar now = Calendar.getInstance();
+		return new Time( now.get( Calendar.HOUR_OF_DAY ), now.get( Calendar.MINUTE ) );
 	}
 }
