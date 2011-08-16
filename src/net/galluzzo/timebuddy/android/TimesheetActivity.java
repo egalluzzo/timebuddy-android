@@ -4,13 +4,16 @@
 package net.galluzzo.timebuddy.android;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import net.galluzzo.android.widget.BlockView;
 import net.galluzzo.android.widget.BlocksLayout;
 import net.galluzzo.timebuddy.model.TimeEntry;
+import net.galluzzo.timebuddy.model.TimeEntryTimestampComparator;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.os.AsyncTask;
@@ -113,21 +116,24 @@ public class TimesheetActivity extends BaseActivity
 				int year = startOfTimesheetView.get( Calendar.YEAR );
 				int month = startOfTimesheetView.get( Calendar.MONTH );
 				int day = startOfTimesheetView.get( Calendar.DAY_OF_MONTH );
-				new DatePickerDialog( TimesheetActivity.this, new OnDateSetListener()
-				{
-					public void onDateSet( DatePicker inView, int inYear, int inMonthOfYear,
-						int inDayOfMonth )
+				new DatePickerDialog( TimesheetActivity.this,
+					new OnDateSetListener()
 					{
-						startOfTimesheetView.set( Calendar.YEAR, inYear );
-						startOfTimesheetView.set( Calendar.MONTH, inMonthOfYear );
-						startOfTimesheetView.set( Calendar.DAY_OF_MONTH, inDayOfMonth );
-						refreshTimesheet();
-					}
-				}, year, month, day ).show();
+						public void onDateSet( DatePicker inView, int inYear,
+							int inMonthOfYear, int inDayOfMonth )
+						{
+							startOfTimesheetView.set( Calendar.YEAR, inYear );
+							startOfTimesheetView.set( Calendar.MONTH,
+								inMonthOfYear );
+							startOfTimesheetView.set( Calendar.DAY_OF_MONTH,
+								inDayOfMonth );
+							refreshTimesheet();
+						}
+					}, year, month, day ).show();
 			}
 		} );
 	}
-	
+
 	@Override
 	protected void onResume()
 	{
@@ -164,10 +170,9 @@ public class TimesheetActivity extends BaseActivity
 		scrollView.setVisibility( View.GONE );
 		emptyTextView.setVisibility( View.GONE );
 		progressBarView.setVisibility( View.VISIBLE );
-		
-		weekTextView.setText( START_OF_WEEK_DATE_FORMAT.format(
-			startOfTimesheetView.getTime() ) );
-		
+
+		weekTextView.setText( START_OF_WEEK_DATE_FORMAT.format( startOfTimesheetView.getTime() ) );
+
 		if ( loadTask != null )
 		{
 			loadTask.cancel( true );
@@ -178,20 +183,44 @@ public class TimesheetActivity extends BaseActivity
 
 	public void createBlockViews( List<TimeEntry> timeEntries )
 	{
+		List<TimeEntry> sortedTimeEntries = new ArrayList<TimeEntry>(
+			timeEntries );
+		Collections.sort( sortedTimeEntries, new TimeEntryTimestampComparator() );
+		
+		int previousDay = -1;
+		BlockView previousBlock = null;
 		blocksLayout.removeAllBlocks();
-		for ( TimeEntry timeEntry : timeEntries )
+		for ( TimeEntry timeEntry : sortedTimeEntries )
 		{
-			long timeInMillis = timeEntry.getTimestamp()
+			long startTime = timeEntry.getTimestamp()
 				.getTime();
-			int day = (int) ( ( timeInMillis - startOfTimesheetView.getTimeInMillis() ) / MILLIS_PER_DAY );
+			int day = (int) ( ( startTime - startOfTimesheetView.getTimeInMillis() ) / MILLIS_PER_DAY );
 			BlockView blockView = new BlockView( this, "",
-				timeEntry.getMessage() + " "
-					+ timeEntry.getCommaSeparatedTagLabels(), timeInMillis,
-				timeInMillis + MILLIS_PER_HOUR, false, day,
+				timeEntry.getMessage() + "\n"
+					+ timeEntry.getCommaSeparatedTagLabels(), startTime,
+					startTime + MILLIS_PER_HOUR, false, day,
 				timeEntry.getColor() );
 			blockView.setTextSize( TypedValue.COMPLEX_UNIT_DIP, 8 );
 			blockView.setPadding( 5, 5, 5, 5 );
-			blocksLayout.addBlock( blockView );
+			
+			if ( previousBlock != null )
+			{
+				// If the new block is on the same day as the old one, end the
+				// previous block right above the new one.
+				if ( previousDay == day )
+				{
+					Log.w("TimesheetActivity", "Setting end time to " + startTime );
+					previousBlock.setEndTime( startTime - 1L );
+				}
+				blocksLayout.addBlock( previousBlock );
+			}
+			previousBlock = blockView;
+			previousDay = day;
+		}
+		
+		if ( previousBlock != null )
+		{
+			blocksLayout.addBlock( previousBlock );
 		}
 	}
 
@@ -199,7 +228,8 @@ public class TimesheetActivity extends BaseActivity
 	protected void onSaveInstanceState( Bundle inOutState )
 	{
 		super.onSaveInstanceState( inOutState );
-		inOutState.putLong( SAVED_START_OF_WEEK, startOfTimesheetView.getTimeInMillis() );
+		inOutState.putLong( SAVED_START_OF_WEEK,
+			startOfTimesheetView.getTimeInMillis() );
 	}
 
 	@Override
@@ -207,8 +237,7 @@ public class TimesheetActivity extends BaseActivity
 	{
 		super.onRestoreInstanceState( inSavedInstanceState );
 		startOfTimesheetView = Calendar.getInstance();
-		startOfTimesheetView.setTimeInMillis(
-			inSavedInstanceState.getLong( SAVED_START_OF_WEEK ) );
+		startOfTimesheetView.setTimeInMillis( inSavedInstanceState.getLong( SAVED_START_OF_WEEK ) );
 	}
 
 	protected void makeTimesheetVisible()

@@ -39,25 +39,23 @@ public class BlockView extends Button {
             | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY |
             DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_TIME;
 
-    private final String mBlockId;
-    private final String mTitle;
-    private final long mStartTime;
-    private final long mEndTime;
-    private final boolean mContainsStarred;
-    private final int mColumn;
+    private String mBlockId;
+    private long mStartTime;
+    private long mEndTime;
+    private boolean mContainsStarred;
+    private int mColumn;
 
     public BlockView(Context context, String blockId, String title, long startTime,
             long endTime, boolean containsStarred, int column, int accentColor) {
         super(context);
 
         mBlockId = blockId;
-        mTitle = title;
         mStartTime = startTime;
         mEndTime = endTime;
         mContainsStarred = containsStarred;
         mColumn = column;
 
-        setText(mTitle);
+        setText(title);
 
         // TODO: turn into color state list with layers?
         int textColor = Color.WHITE;
@@ -89,5 +87,20 @@ public class BlockView extends Button {
 
     public int getColumn() {
         return mColumn;
+    }
+    
+    public void setStartTime(long startTime) {
+    	mStartTime = startTime;
+    	//invalidate();
+    }
+    
+    public void setEndTime(long endTime) {
+    	mEndTime = endTime;
+    	//invalidate();
+    }
+    
+    public void setColumn(int column) {
+    	mColumn = column;
+    	//invalidate();
     }
 }

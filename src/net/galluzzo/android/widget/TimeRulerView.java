@@ -16,8 +16,6 @@
 
 package net.galluzzo.android.widget;
 
-import java.util.TimeZone;
-
 import net.galluzzo.timebuddy.android.R;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -92,7 +90,7 @@ public class TimeRulerView extends View {
     public int getTimeVerticalOffset(long timeMillis) {
     	// ENG 8/10/2011: Changed the following line, since I want to use the
     	//                user's local timezone, not the Google I/O timezone.
-        Time time = new Time(TimeZone.getDefault().getDisplayName());
+        Time time = new Time();
         time.set(timeMillis);
 
         final int minutes = ((time.hour - mStartHour) * 60) + time.minute;
