@@ -55,10 +55,21 @@ public class TimesheetActivity extends BaseActivity
 	{
 		protected List<TimeEntry> doInBackground( Date... inParams )
 		{
+			if ( !getSettings().isConnectivityInformationSet() )
+			{
+				return Collections.emptyList();
+			}
+			
+			// We need to make sure the tags are read before we display the
+			// time entries, so that we get the right colors.
+			getTimeBuddyService().findAllTags();
+			
+			// Figure out the end of the week.
 			Calendar cal = Calendar.getInstance();
 			cal.setTime( inParams[0] );
 			cal.add( Calendar.WEEK_OF_YEAR, 1 );
 			Date endDate = cal.getTime();
+			
 			List<TimeEntry> timeEntries = null;
 			try
 			{
@@ -192,30 +203,36 @@ public class TimesheetActivity extends BaseActivity
 		blocksLayout.removeAllBlocks();
 		for ( TimeEntry timeEntry : sortedTimeEntries )
 		{
-			long startTime = timeEntry.getTimestamp()
-				.getTime();
-			int day = (int) ( ( startTime - startOfTimesheetView.getTimeInMillis() ) / MILLIS_PER_DAY );
-			BlockView blockView = new BlockView( this, "",
-				timeEntry.getMessage() + "\n"
-					+ timeEntry.getCommaSeparatedTagLabels(), startTime,
-					startTime + MILLIS_PER_HOUR, false, day,
-				timeEntry.getColor() );
-			blockView.setTextSize( TypedValue.COMPLEX_UNIT_DIP, 8 );
-			blockView.setPadding( 5, 5, 5, 5 );
-			
-			if ( previousBlock != null )
+			Log.d( TAG, "Time entry: " + timeEntry );
+			// If the timestamp is null, we just ignore the time entry, since we
+			// can't do much with it.
+			if ( timeEntry.getTimestamp() != null )
 			{
-				// If the new block is on the same day as the old one, end the
-				// previous block right above the new one.
-				if ( previousDay == day )
+				long startTime = timeEntry.getTimestamp()
+					.getTime();
+				int day = (int) ( ( startTime - startOfTimesheetView.getTimeInMillis() ) / MILLIS_PER_DAY );
+				BlockView blockView = new BlockView( this, "",
+					timeEntry.getMessage() + "\n"
+						+ timeEntry.getCommaSeparatedTagLabels(), startTime,
+						startTime + MILLIS_PER_HOUR, false, day,
+					timeEntry.getColor() );
+				blockView.setTextSize( TypedValue.COMPLEX_UNIT_DIP, 8 );
+				blockView.setPadding( 5, 5, 5, 5 );
+				
+				if ( previousBlock != null )
 				{
-					Log.w("TimesheetActivity", "Setting end time to " + startTime );
-					previousBlock.setEndTime( startTime - 1L );
+					// If the new block is on the same day as the old one, end the
+					// previous block right above the new one.
+					if ( previousDay == day )
+					{
+						Log.w("TimesheetActivity", "Setting end time to " + startTime );
+						previousBlock.setEndTime( startTime - 1L );
+					}
+					blocksLayout.addBlock( previousBlock );
 				}
-				blocksLayout.addBlock( previousBlock );
+				previousBlock = blockView;
+				previousDay = day;
 			}
-			previousBlock = blockView;
-			previousDay = day;
 		}
 		
 		if ( previousBlock != null )

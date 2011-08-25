@@ -6,7 +6,6 @@ package net.galluzzo.timebuddy.android;
 import net.galluzzo.timebuddy.service.RemoteTimeBuddyService;
 import net.galluzzo.timebuddy.service.TimeBuddyService;
 import android.content.Context;
-import android.preference.PreferenceManager;
 
 /**
  * @author Eric Galluzzo, eric@galluzzo.net
@@ -30,8 +29,7 @@ public class ServiceFactory
 	{
 		if ( settings == null )
 		{
-			settings = new Settings(
-				PreferenceManager.getDefaultSharedPreferences( inContext ) );
+			settings = new Settings( inContext );
 		}
 		return settings;
 	}

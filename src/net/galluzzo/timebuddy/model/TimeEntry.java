@@ -49,6 +49,13 @@ public class TimeEntry
 		tags.clear();
 	}
 	
+	@Override
+	public String toString()
+	{
+		return "TimeEntry[timestamp = " + timestamp + ", message = " + message
+				+ ", tags = " + getCommaSeparatedTagLabels() + "]";
+	}
+	
 	public String getCommaSeparatedTagLabels()
 	{
 		StringBuilder sb = new StringBuilder();

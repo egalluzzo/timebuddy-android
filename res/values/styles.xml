@@ -42,4 +42,10 @@
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
     </style>
+    
+    <style name="AppWidgetButtonSeparator">
+    	<item name="android:layout_width">2dp</item>
+    	<item name="android:layout_height">fill_parent</item>
+    	<item name="android:background">#40FFFFFF</item>
+    </style>
 </resources>

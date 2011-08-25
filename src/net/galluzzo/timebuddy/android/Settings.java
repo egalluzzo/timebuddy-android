@@ -8,7 +8,9 @@ import java.util.Calendar;
 
 import net.galluzzo.datetime.Time;
 import net.galluzzo.timebuddy.service.RemoteUrlProvider;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -24,11 +26,11 @@ public class Settings implements RemoteUrlProvider
 {
 	private static final String TAG = Settings.class.getSimpleName();
 
-	private SharedPreferences sharedPreferences;
+	private Context context;
 
-	public Settings( SharedPreferences inSharedPreferences )
+	public Settings( Context inContext )
 	{
-		sharedPreferences = inSharedPreferences;
+		context = inContext;
 	}
 
 	/**
@@ -39,7 +41,7 @@ public class Settings implements RemoteUrlProvider
 	 */
 	public String getTimeBuddyEmail()
 	{
-		return sharedPreferences.getString( "timeBuddyEmail", null );
+		return getSharedPreferences().getString( "timeBuddyEmail", null );
 	}
 
 	/**
@@ -49,7 +51,7 @@ public class Settings implements RemoteUrlProvider
 	 */
 	public String getApiKey()
 	{
-		return sharedPreferences.getString( "apiKey", null );
+		return getSharedPreferences().getString( "apiKey", null );
 	}
 
 	/**
@@ -80,7 +82,16 @@ public class Settings implements RemoteUrlProvider
 	 */
 	public boolean isPolling()
 	{
-		return sharedPreferences.getBoolean( "poll", true );
+		return getSharedPreferences().getBoolean( "poll", true );
+	}
+	
+	/**
+	 * If the application is currently polling (see {@link #isPolling()}), turn
+	 * off polling; if not, then turn it on.
+	 */
+	public void togglePolling()
+	{
+		getSharedPreferences().edit().putBoolean( "poll", !isPolling() ).commit();
 	}
 
 	/**
@@ -91,7 +102,7 @@ public class Settings implements RemoteUrlProvider
 	 */
 	public int getWorkWeekStart()
 	{
-		return Integer.parseInt( sharedPreferences.getString( "workWeekStart",
+		return Integer.parseInt( getSharedPreferences().getString( "workWeekStart",
 			"1" ) );
 	}
 
@@ -103,7 +114,7 @@ public class Settings implements RemoteUrlProvider
 	 */
 	public int getWorkWeekEnd()
 	{
-		return Integer.parseInt( sharedPreferences.getString( "workWeekEnd",
+		return Integer.parseInt( getSharedPreferences().getString( "workWeekEnd",
 			"5" ) );
 	}
 
@@ -116,7 +127,7 @@ public class Settings implements RemoteUrlProvider
 	{
 		try
 		{
-			return Time.parseTime( sharedPreferences.getString( "workdayStart",
+			return Time.parseTime( getSharedPreferences().getString( "workdayStart",
 				"8:00" ) );
 		}
 		catch ( ParseException e )
@@ -135,7 +146,7 @@ public class Settings implements RemoteUrlProvider
 	{
 		try
 		{
-			return Time.parseTime( sharedPreferences.getString( "workdayEnd",
+			return Time.parseTime( getSharedPreferences().getString( "workdayEnd",
 				"17:00" ) );
 		}
 		catch ( ParseException e )
@@ -155,7 +166,7 @@ public class Settings implements RemoteUrlProvider
 	 */
 	public int getPollingIntervalInMinutes()
 	{
-		return Integer.parseInt( sharedPreferences.getString(
+		return Integer.parseInt( getSharedPreferences().getString(
 			"pollingInterval", "60" ) );
 	}
 
@@ -200,5 +211,10 @@ public class Settings implements RemoteUrlProvider
 	protected boolean isCurrentTimeInWorkDay()
 	{
 		return Time.now().isInRange( getWorkdayStart(), getWorkdayEnd() );
+	}
+	
+	protected SharedPreferences getSharedPreferences()
+	{
+		return PreferenceManager.getDefaultSharedPreferences( context );
 	}
 }

@@ -5,6 +5,9 @@
 	<string name="save_label">Save</string>
 	<string name="cancel_label">Cancel</string>
 	
+	<string name="appwidget_timebuddy_is_on">is currently on</string>
+	<string name="appwidget_timebuddy_is_off">is currently off</string>
+	
 	<string name="home_new_time_entry_label">New Entry</string>
 	<string name="home_view_timesheet_label">Timesheet</string>
 	<string name="home_report_label">Report</string>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:background="@drawable/widget_template">
+	<ImageButton android:id="@+id/appwidgetTimeBuddyButton"
+		android:layout_width="58dp" android:layout_height="fill_parent"
+		android:src="@drawable/icon" android:background="@drawable/btn_appwidget_left_border" />
+	<ImageView style="@style/AppWidgetButtonSeparator" />
+	<LinearLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:orientation="vertical"
+		android:layout_gravity="center_vertical" android:layout_weight="1">
+		<TextView android:id="@+id/appwidgetAppNameTextView"
+			android:layout_width="wrap_content" android:layout_height="fill_parent"
+			android:layout_weight="1" android:text="@string/app_name"
+			android:paddingLeft="8dp" android:textSize="16dp" android:textColor="@android:color/white"
+			android:textStyle="bold" />
+		<TextView android:id="@+id/appwidgetPollingStatusTextView"
+			android:layout_width="wrap_content" android:layout_height="fill_parent"
+			android:layout_weight="1" android:text="@string/appwidget_timebuddy_is_on"
+			android:paddingLeft="8dp" android:textSize="14dp" android:textColor="@android:color/white" />
+	</LinearLayout>
+	<ImageView style="@style/AppWidgetButtonSeparator" />
+	<ImageButton android:id="@+id/appwidgetAddNewButton"
+		android:layout_width="58dp" android:layout_height="fill_parent"
+		android:src="@drawable/appwidget_add" android:background="@drawable/btn_appwidget_middle_border"
+		android:gravity="center" />
+	<ImageView style="@style/AppWidgetButtonSeparator" />
+	<ImageButton android:id="@+id/appwidgetDoNotDisturbButton"
+		android:layout_width="58dp" android:layout_height="fill_parent"
+		android:src="@drawable/appwidget_disable" android:background="@drawable/btn_appwidget_right_border"
+		android:gravity="center" />
+</LinearLayout>
