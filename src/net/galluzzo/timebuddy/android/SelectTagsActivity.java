@@ -29,8 +29,7 @@ import android.widget.TextView;
  */
 public class SelectTagsActivity extends BaseListActivity
 {
-	public static final String EXTRA_TAG_IDS = SelectTagsActivity.class.getName()
-		+ ".tagIds";
+	public static final String EXTRA_TAG_IDS = "tagIds";
 	
 	private static final String TAG = SelectTagsActivity.class.getSimpleName();
 

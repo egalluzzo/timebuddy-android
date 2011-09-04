@@ -4,6 +4,7 @@
 	
 	<string name="save_label">Save</string>
 	<string name="cancel_label">Cancel</string>
+	<string name="close_label">Close</string>
 	
 	<string name="appwidget_timebuddy_is_on">is currently on</string>
 	<string name="appwidget_timebuddy_is_off">is currently off</string>
@@ -19,7 +20,8 @@
 	<string name="timesheet_no_time_entries">No time entries</string>
 	<string name="timesheet_select_start_of_week_label">Start of Week</string>
 
-	<string name="time_entry_activity_label">New Time Entry</string>
+	<string name="new_time_entry_activity_label">New Time Entry</string>
+	<string name="view_time_entry_activity_label">View Time Entry</string>
 	<string name="time_entry_description_hint">Description</string>
 	<string name="time_entry_tags_label">Tags...</string>
 	<string name="time_entry_submit_label">Submit</string>
@@ -34,11 +36,13 @@
 	<string name="edit_tag_label_hint">Label</string>
 	<string name="edit_tag_task_label">Task (one per time entry)</string>
 	<string name="edit_tag_color_label">Color</string>
-
+	
 	<string name="edit_tags_activity_label">Edit Tags</string>
 	<string name="edit_tags_new_tag_label">New...</string>
 	<string name="edit_tags_edit_tag_label">Edit...</string>
 	<string name="edit_tags_remove_tag_label">Remove</string>
+
+	<string name="view_tags_activity_label">View Tags</string>
 	
 	<string name="preferences_activity_label">Edit Settings</string>
 	<string name="preferences_time_buddy_server_label">Time Buddy Server</string>

@@ -16,6 +16,7 @@ import net.galluzzo.timebuddy.model.TimeEntry;
 import net.galluzzo.timebuddy.model.TimeEntryTimestampComparator;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,17 +60,17 @@ public class TimesheetActivity extends BaseActivity
 			{
 				return Collections.emptyList();
 			}
-			
+
 			// We need to make sure the tags are read before we display the
 			// time entries, so that we get the right colors.
 			getTimeBuddyService().findAllTags();
-			
+
 			// Figure out the end of the week.
 			Calendar cal = Calendar.getInstance();
 			cal.setTime( inParams[0] );
 			cal.add( Calendar.WEEK_OF_YEAR, 1 );
 			Date endDate = cal.getTime();
-			
+
 			List<TimeEntry> timeEntries = null;
 			try
 			{
@@ -178,9 +179,7 @@ public class TimesheetActivity extends BaseActivity
 	 */
 	protected void refreshTimesheet()
 	{
-		scrollView.setVisibility( View.GONE );
-		emptyTextView.setVisibility( View.GONE );
-		progressBarView.setVisibility( View.VISIBLE );
+		makeProgressBarVisible();
 
 		weekTextView.setText( START_OF_WEEK_DATE_FORMAT.format( startOfTimesheetView.getTime() ) );
 
@@ -197,11 +196,11 @@ public class TimesheetActivity extends BaseActivity
 		List<TimeEntry> sortedTimeEntries = new ArrayList<TimeEntry>(
 			timeEntries );
 		Collections.sort( sortedTimeEntries, new TimeEntryTimestampComparator() );
-		
+
 		int previousDay = -1;
 		BlockView previousBlock = null;
 		blocksLayout.removeAllBlocks();
-		for ( TimeEntry timeEntry : sortedTimeEntries )
+		for ( final TimeEntry timeEntry : sortedTimeEntries )
 		{
 			Log.d( TAG, "Time entry: " + timeEntry );
 			// If the timestamp is null, we just ignore the time entry, since we
@@ -214,18 +213,26 @@ public class TimesheetActivity extends BaseActivity
 				BlockView blockView = new BlockView( this, "",
 					timeEntry.getMessage() + "\n"
 						+ timeEntry.getCommaSeparatedTagLabels(), startTime,
-						startTime + MILLIS_PER_HOUR, false, day,
+					startTime + MILLIS_PER_HOUR, false, day,
 					timeEntry.getColor() );
 				blockView.setTextSize( TypedValue.COMPLEX_UNIT_DIP, 8 );
 				blockView.setPadding( 5, 5, 5, 5 );
-				
+				blockView.setOnClickListener( new OnClickListener()
+				{
+					public void onClick( View inV )
+					{
+						viewTimeEntry( timeEntry );
+					}
+				} );
+
 				if ( previousBlock != null )
 				{
 					// If the new block is on the same day as the old one, end the
 					// previous block right above the new one.
 					if ( previousDay == day )
 					{
-						Log.w("TimesheetActivity", "Setting end time to " + startTime );
+						Log.w( "TimesheetActivity", "Setting end time to "
+							+ startTime );
 						previousBlock.setEndTime( startTime - 1L );
 					}
 					blocksLayout.addBlock( previousBlock );
@@ -234,7 +241,7 @@ public class TimesheetActivity extends BaseActivity
 				previousDay = day;
 			}
 		}
-		
+
 		if ( previousBlock != null )
 		{
 			blocksLayout.addBlock( previousBlock );
@@ -269,5 +276,32 @@ public class TimesheetActivity extends BaseActivity
 		scrollView.setVisibility( View.GONE );
 		progressBarView.setVisibility( View.GONE );
 		emptyTextView.setVisibility( View.VISIBLE );
+	}
+
+	protected void makeProgressBarVisible()
+	{
+		scrollView.setVisibility( View.GONE );
+		emptyTextView.setVisibility( View.GONE );
+		progressBarView.setVisibility( View.VISIBLE );
+	}
+
+	/**
+	 * Starts an activity to view the given time entry.
+	 * 
+	 * @param timeEntry  The time entry to view
+	 */
+	protected void viewTimeEntry( TimeEntry timeEntry )
+	{
+		Intent intent = new Intent( getApplicationContext(),
+			ViewTimeEntryActivity.class );
+		intent.putExtra( ViewTimeEntryActivity.EXTRA_DESCRIPTION,
+			timeEntry.getMessage() );
+		intent.putExtra( ViewTimeEntryActivity.EXTRA_START_TIME,
+			timeEntry.getTimestamp()
+				.getTime() );
+		intent.putExtra( ViewTimeEntryActivity.EXTRA_TAG_IDS,
+			timeEntry.getTagIds() );
+
+		startActivity( intent );
 	}
 }

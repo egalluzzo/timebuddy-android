@@ -3,6 +3,7 @@
  */
 package net.galluzzo.timebuddy.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -11,10 +12,11 @@ import java.util.List;
 
 /**
  * @author Eric Galluzzo, eric@galluzzo.net
- *
  */
-public class TimeEntry
+public class TimeEntry implements Serializable
 {
+	private static final long serialVersionUID = 20110903L;
+	
 	private String message;
 	private List<Tag> tags = new ArrayList<Tag>( 2 );
 	private Date timestamp;
@@ -32,6 +34,17 @@ public class TimeEntry
 	public List<Tag> getTags()
 	{
 		return tags;
+	}
+	
+	public String[] getTagIds()
+	{
+		String[] tagIds = new String[tags.size()];
+		// TODO: Lazy coding -- what about LinkedLists?
+		for ( int i = 0; i < tags.size(); i++ )
+		{
+			tagIds[i] = tags.get( i ).getId();
+		}
+		return tagIds;
 	}
 
 	public void addTag( Tag inTag )

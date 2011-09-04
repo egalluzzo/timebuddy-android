@@ -3,6 +3,7 @@
  */
 package net.galluzzo.timebuddy.model;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.regex.Matcher;
@@ -13,8 +14,9 @@ import java.util.regex.Pattern;
  * 
  * @author Eric Galluzzo, eric@galluzzo.net
  */
-public class Color
+public class Color implements Serializable
 {
+	private static final long serialVersionUID = 20110903L;
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "^#([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})$" );
 
 	private int red, green, blue;

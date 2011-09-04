@@ -3,6 +3,7 @@
  */
 package net.galluzzo.timebuddy.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,8 +12,10 @@ import java.util.Map;
  * 
  * @author Eric Galluzzo, eric@galluzzo.net
  */
-public class Tag
+public class Tag implements Serializable
 {
+	private static final long serialVersionUID = 20110903L;
+	
 	private static Map<String, Tag> idToTagMap = new HashMap<String, Tag>();
 
 	private String id;

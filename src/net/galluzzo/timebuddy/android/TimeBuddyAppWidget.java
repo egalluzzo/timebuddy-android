@@ -72,7 +72,7 @@ public class TimeBuddyAppWidget extends AppWidgetProvider
 	{
 		Intent intent = new Intent( inContext, TimeBuddyMainActivity.class );
 		PendingIntent pendingIntent = PendingIntent.getActivity( inContext, 0,
-			intent, 0);
+			intent, 0 );
 		inRemoteViews.setOnClickPendingIntent( R.id.appwidgetTimeBuddyButton,
 			pendingIntent );
 	}
@@ -82,7 +82,7 @@ public class TimeBuddyAppWidget extends AppWidgetProvider
 	{
 		Intent intent = new Intent( inContext, NewTimeEntryActivity.class );
 		PendingIntent pendingIntent = PendingIntent.getActivity( inContext, 0,
-			intent, 0 );
+			intent, Intent.FLAG_ACTIVITY_NEW_TASK );
 		inRemoteViews.setOnClickPendingIntent( R.id.appwidgetAddNewButton,
 			pendingIntent );
 	}
@@ -93,7 +93,7 @@ public class TimeBuddyAppWidget extends AppWidgetProvider
 		Intent intent = new Intent( inContext,
 			DoNotDisturbBroadcastReceiver.class );
 		PendingIntent pendingIntent = PendingIntent.getBroadcast( inContext, 0,
-			intent, 0);
+			intent, 0 );
 		inRemoteViews.setOnClickPendingIntent(R.id.appwidgetDoNotDisturbButton,
 			pendingIntent);
 	}

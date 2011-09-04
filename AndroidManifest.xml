@@ -15,7 +15,10 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".NewTimeEntryActivity" android:label="@string/time_entry_activity_label">
+		<activity android:name=".NewTimeEntryActivity" android:label="@string/new_time_entry_activity_label">
+		</activity>
+
+		<activity android:name=".ViewTimeEntryActivity" android:label="@string/view_time_entry_activity_label">
 		</activity>
 
 		<activity android:name=".TimesheetActivity" android:label="@string/timesheet_activity_label"
@@ -29,6 +32,9 @@
 		</activity>
 
 		<activity android:name=".SelectTagsActivity" android:label="@string/tag_list_activity_label">
+		</activity>
+
+		<activity android:name=".ViewTagsActivity" android:label="@string/view_tags_activity_label">
 		</activity>
 
 		<activity android:name=".EditSettingsActivity" android:label="@string/preferences_activity_label">
